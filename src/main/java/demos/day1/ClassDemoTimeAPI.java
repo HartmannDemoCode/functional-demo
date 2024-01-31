@@ -1,4 +1,4 @@
-package demos.day2;
+package demos.day1;
 
 import java.time.*;
 
@@ -29,10 +29,11 @@ public class ClassDemoTimeAPI {
         System.out.println("Total duration in between: "+durationInBetween.getSeconds()/(60*60*24) + " days");
 
         // ZonedDateTime, OffsetDateTime, OffsetTime
-//        ZoneId.getAvailableZoneIds().stream().forEach(System.out::println);
+        // printAllZoneIds();
         ZoneId zoneIdCopenhagen2 = ZoneId.of("Europe/Copenhagen");
         ZoneId zoneIdNewYork2 = ZoneId.of("America/New_York");
 
+        // Calculate flight time between Copenhagen and New York
         ZonedDateTime departureDateTime = ZonedDateTime.of(LocalDateTime.of(2023, 8, 28, 19, 20), zoneIdCopenhagen2);
         ZonedDateTime arrivalDateTime = ZonedDateTime.of(LocalDateTime.of(2023, 8, 28, 22, 0), zoneIdNewYork2);
 
@@ -50,5 +51,8 @@ public class ClassDemoTimeAPI {
 
         // DateTimeFormatter
         System.out.println("Formatted date time: "+departureDateTime.format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+    }
+    private static void printAllZoneIds() {
+        ZoneId.getAvailableZoneIds().stream().forEach(System.out::println);
     }
 }
