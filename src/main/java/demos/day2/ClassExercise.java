@@ -2,7 +2,7 @@ package demos.day2;
 
 import lombok.*;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +11,18 @@ import java.util.stream.Collectors;
 public class ClassExercise {
     public static void main(String[] args) {
         ClassExercise ce = new ClassExercise();
+        ce.run();
 
+    }
+    public void run(){
         // streams and lambdas
-        List<Book> books = ce.createBooks(20);
+        List<Book> books = createBooks(20);
         System.out.println(books);
 
         // ex1: Find average rating of all books
-        double averageRating = books.stream().mapToDouble(Book::getRating).average().getAsDouble();
+        double averageRating = books.stream()
+//                .mapToDouble(Book::getRating).average().getAsDouble();
+                .mapToDouble((book)->{return book.getRating();}).average().getAsDouble();
         System.out.println("Average rating: " + averageRating);
 
         //Find all books published after 2000
@@ -33,13 +38,16 @@ public class ClassExercise {
         System.out.println("Highest rated book: " + highestRated);
 
         //Group book by author
-        Map<String,Double> booksByAuthorRating = books.stream()
+       Map<String,Double> booksByAuthorRating = books.stream()
                 .collect(Collectors.groupingBy(Book::getAuthor, Collectors.averagingDouble(Book::getRating)));
         System.out.println("Books by author: " + booksByAuthorRating);
+        booksByAuthorRating.entrySet().stream().max((entry1,entry2)-> (int) (entry1.getValue() - entry2.getValue())).get();
 
         // Calculate total number of pages
         int totalPages = books.stream().map(Book::getNumberOfPages).reduce(0, (subTotal, element) -> subTotal + element);
+        int totalPages2 = books.stream().mapToInt(Book::getNumberOfPages).sum();
         System.out.println("Total pages: " + totalPages);
+        System.out.println("Total pages: " + totalPages2);
 
         // Collectors API
         List<Transaction> transactions = List.of(
@@ -87,15 +95,16 @@ public class ClassExercise {
 
         // GENERICS
         // ex1: Create a generic class that can store any type of data
-        Demo demo = new Demo("John", 20);
+        Person demo = new Person("John", 20);
 
-        DataStorage<Demo> memoryStorage = new MemoryStorage<>();
+        DataStorage<Person> memoryStorage = new MemoryStorage<>();
         memoryStorage.store(demo);
         System.out.println("From MemoryStorage: "+memoryStorage.retrieve("not used"));
 
-        DataStorage<Demo> fileStorage = new FileStorage<>();
+        DataStorage<Person> fileStorage = new FileStorage<>();
         String fileName = fileStorage.store(demo);
         System.out.println("From FileStorage: "+fileStorage.retrieve(fileName));
+
     }
     // streams and lambdas
     public List<Book> createBooks(int numberOfBooks) {
@@ -161,16 +170,16 @@ public class ClassExercise {
         }
 
     }
-    static class Demo implements Serializable {
+    static class Person implements Serializable {
         private String name;
         private int age;
-        public Demo(String name, int age) {
+        public Person(String name, int age) {
             this.name = name;
             this.age = age;
         }
         @Override
         public String toString() {
-            return "Demo{" +
+            return "Person{" +
                     "name='" + name + '\'' +
                     ", age=" + age +
                     '}';
