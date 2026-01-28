@@ -39,7 +39,12 @@ public class EmployeeCodelab1 {
         Function<Employee, Integer> getAge = emp -> Period.between(emp.birthDate, LocalDate.now()).getYears();
         Map<Employee, Integer> ageMap = employees
                 .stream()
-                .collect(Collectors.toMap(Function.identity(), getAge)); // Function.identety() gives us the element in the stream
+                .map(e -> Map.entry(e, e.getName().length()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+//                .collect(Collectors.toMap(Function.identity(), getAge)); // Function.identety() gives us the element in the stream
         System.out.println(ageMap);
         // 6. Calculate the average age of all employees.
         OptionalDouble averageSalary = employees.stream()
@@ -66,6 +71,11 @@ public class EmployeeCodelab1 {
                 .collect(Collectors.toSet());
         System.out.println(empsBornThisMonth);
         // 11. Create a method to sort employees based on different criteria, such as age, salary, or name.
+        System.out.println("Sort by NAMES: "+instance.getSortedEmps(employees, "name"));
+        System.out.println("Sort by DEPARTMENTS: "+instance.getSortedEmps(employees, "department"));
+        System.out.println("Sort by BIRTHDAY: "+instance.getSortedEmps(employees, "birthday"));
+        System.out.println("Sort by SALARY: "+instance.getSortedEmps(employees, "salary"));
+
 
 
     }
@@ -82,6 +92,20 @@ public class EmployeeCodelab1 {
                 .stream()
                 .filter((emp)->emp.birthDate.getMonth().getValue() == month)
                 .collect(Collectors.toSet());
+    }
+    public List<Employee> getSortedEmps(List<Employee> emps, String criteria){
+        return switch (criteria) {
+            case "name" ->
+                    emps.stream().sorted((emp1, emp2) -> emp1.name.compareTo(emp2.name)).collect(Collectors.toList());
+            case "birthday" ->
+                    emps.stream().sorted((emp1, emp2) -> emp1.birthDate.compareTo(emp2.birthDate)).collect(Collectors.toList());
+            case "salary" ->
+                    emps.stream().sorted((emp1, emp2) -> Double.compare(emp1.salary, emp2.salary)).collect(Collectors.toList());
+            case "department" ->
+                    emps.stream().sorted((emp1, emp2) -> emp1.department.compareTo(emp2.department)).collect(Collectors.toList());
+            default ->
+                    throw new IllegalArgumentException("Sorting criteria must be one of these: 'name', 'birthday', 'salary' or 'department'");
+        };
     }
 
     @Data
