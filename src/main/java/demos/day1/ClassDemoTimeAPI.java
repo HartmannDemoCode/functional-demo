@@ -2,14 +2,18 @@ package demos.day1;
 
 import java.time.*;
 
+/**
+ * Purpose: Show some features of the Java Time API
+ * @author: Thomas Hartmann
+ */
 public class ClassDemoTimeAPI {
     // For looking into the Date and Time API
     public static void main(String[] args) {
-        // LocalDate NOW
+
         LocalDate now = LocalDate.now(); // Based on the system clock
-        System.out.println(now);
-        System.out.println(now.getDayOfMonth());
-        System.out.println(now.getDayOfWeek());
+        System.out.println("Now: "+now);
+        System.out.println("Day of Month: "+now.getDayOfMonth());
+        System.out.println("Day of Week: "+now.getDayOfWeek());
 
         // LocalDate OF
         LocalDate past = LocalDate.of(2020, 1, 1);

@@ -18,6 +18,7 @@ public class CallbackInJava {
     private static interface Filter{
         boolean validate(String element);
     }
+
     // filter method here uses a functional interface
     private static String[] filter(String[] strs, Filter filterObj){
         List<String> filtered = new ArrayList();
@@ -61,6 +62,7 @@ public class CallbackInJava {
         for (String string : result3) {
             System.out.println(string);
         }
+
     }
 
   //----------------------------------------------------------------------------------------------  

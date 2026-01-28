@@ -14,8 +14,8 @@ public class ClassDemo {
     public static void main(String[] args) {
         // Using a lambda expression to define the implementation of the functional interface
         MyFunction addition = (a, b) -> a + b;
-        Integer result = addition.doOperate(3, 5); // Output: 8
-        System.out.println(result.toString());
+        int result = addition.doOperate(3, 5); // Output: 8
+        System.out.println(result);
 
         // Interface: Predicate to check if a number is even
         Predicate<Integer> isEven = num -> num % 2 == 0; // One input, generates a boolean result
@@ -96,7 +96,7 @@ public class ClassDemo {
         names.forEach(System.out::println);
     }
 
-    private static class Person {
+    public static class Person {
         private String name;
 
         public Person() {
@@ -123,7 +123,6 @@ public class ClassDemo {
         // Using constructor method reference to create instances
         Supplier<Person> personSupplier = Person::new; // no-arg constructor
         Person person = personSupplier.get();
-        person.getName();
 
         Function<String, Person> personCreatorOne = Person::new; // one-arg constructor
         Person person1 = personCreatorOne.apply("Alice");

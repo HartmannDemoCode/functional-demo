@@ -12,6 +12,10 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Purpose: Solution to Class exercise for sem3 JavaDD week1 day2
+ * @author: Thomas Hartmann
+ */
 public class ClassExercise {
     public static void main(String[] args) {
         ClassExercise ce = new ClassExercise();
@@ -71,9 +75,10 @@ public class ClassExercise {
             emp.setBirthday(randomDate);
             System.out.println(emp.getName() + " " + emp.getSalary() + " " + emp.getBirthday());
         }
+        LocalDate today = LocalDate.now();
+
         for(Employee emp : employees){
             // Calculate emp age
-            LocalDate today = LocalDate.now();
             // get duration between today and birthday
             int age = Period.between(emp.getBirthday(), today).getYears(); // g
             System.out.println(emp.getName() + " is " + age + " years old");
@@ -81,7 +86,6 @@ public class ClassExercise {
         // Calculate average age
         int summedAges = 0;
         for(Employee emp : employees){
-            LocalDate today = LocalDate.now();
             int age = today.getYear() - emp.getBirthday().getYear();
             summedAges += age;
         }
@@ -94,7 +98,7 @@ public class ClassExercise {
         for(Employee emp : employeesWithBirthdayInApril){
             System.out.println(emp.getName() + " " + emp.getBirthday());
         }
-        //Group employees by birth month and display the count of employees in each group
+
         System.out.println("Group employees by birth month and display the count of employees in each group");
         Function<Employee, Integer> getBirthMonth = (emp) -> emp.getBirthday().getMonthValue();
         Map<Integer,Integer> numberOfEmpsPerBirthMonth = employees.stream().collect(Collectors.groupingBy(getBirthMonth, Collectors.summingInt(emp -> 1)));
