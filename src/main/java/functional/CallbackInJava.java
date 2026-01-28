@@ -7,6 +7,7 @@ package functional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Purpose: Show how to use functional interfaces and lambda expressions in Java
@@ -34,6 +35,11 @@ public class CallbackInJava {
     public static void main(String[] args) {
 
         String[] strs = {"Andy", "Beatrice", "Charles", "Dorthea", "Eric", "Beatles"};
+        // Step1: Lav et array af Strings
+        // Step2: Lav et interface Mapper med en metode String map(String element)
+        // step3: Lav en metode mapStrings(String[] strings, Mapper mapper) som returnerer et array af Strings
+        // Step4: Kald mapStrings med et array af Strings og en anonym klasse der implementerer Mapper på en måde så alle strings bliver store bogstaver
+        // Step5: Kald mapStrings med et array af Strings og en lambda expression
 
         System.out.println("--------------------- Demo 1: Parameter to filter() is an object of type: Filter ------------------");
         // Here we use a class that implements the interface Filter and pass it to the filter method
@@ -63,6 +69,12 @@ public class CallbackInJava {
             System.out.println(string);
         }
 
+<<<<<<< HEAD
+=======
+
+        Predicate<String> filterType = (String element)-> element.contains("a");
+//        filter(strs, filterType);
+>>>>>>> 2902e1e0b33eb0c8213ef060801b7e7860e1fed1
     }
 
   //----------------------------------------------------------------------------------------------  
