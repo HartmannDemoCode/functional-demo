@@ -24,34 +24,47 @@ public class EmployeeCodelab1 {
                 new Employee("Frankenstein", LocalDate.of(1987, 11, 4), "Front", 720),
                 new Employee("Grace", LocalDate.of(1992, 1, 17), "IT", 68000)
         ));
-        // 1. Find employees with highest salary
+        // 1. Find employee with highest salary
         Employee highestSal = employees.stream().max((emp1,emp2)-> emp1.salary > emp2.salary?1:emp1.salary == emp2.salary?0:-1).get();
+        Employee highestSal2 = employees.stream().max(Comparator.comparingDouble(Employee::getSalary)).get();
         System.out.println(highestSal);
+        System.out.println(highestSal2);
         // 2. Count the number of employees in each department
         Map<String, Long> empCountByDept = employees.stream().collect(Collectors.groupingBy(emp -> emp.department, Collectors.counting()));
+        Map<String, Long> empCountByDept2 = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()));
         System.out.println(empCountByDept);
         // 3. Group employees by department and calculate the average salary for each department.
-        Map<String, Double> empAvgSalary = employees.stream().collect(Collectors.groupingBy(e->e.department, Collectors.averagingDouble(e->e.getSalary())));
+        Map<String, Double> empAvgSalary = employees.stream().collect(Collectors.groupingBy(e->e.department, Collectors.averagingDouble(Employee::getSalary)));
         System.out.println(empAvgSalary);
         // 4. Filter and display employees whose salary is above a certain threshold.
         System.out.println(instance.getEmpWithSalAbove(60000, employees));
+        List<Employee> richEmployees = employees.stream()
+                .filter((emp)->emp.getSalary()>10000).toList();
         // 5. Calculate the age of each employee based on their birthdate.
         Function<Employee, Integer> getAge = emp -> Period.between(emp.birthDate, LocalDate.now()).getYears();
+
         Map<Employee, Integer> ageMap = employees
                 .stream()
-                .map(e -> Map.entry(e, e.getName().length()))
+                .map(e -> Map.entry(e, getAge.apply(e)))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
                 ));
+
 //                .collect(Collectors.toMap(Function.identity(), getAge)); // Function.identety() gives us the element in the stream
         System.out.println(ageMap);
         // 6. Calculate the average age of all employees.
         OptionalDouble averageSalary = employees.stream()
                 .mapToInt(emp->getAge.apply(emp)).average();
+
         System.out.println(averageSalary.getAsDouble());
+
         // 7. Find the three oldest employees.
-        Set<Employee> oldest3 = employees.stream().sorted((emp1,emp2)->getAge.apply(emp2)-getAge.apply(emp1)).limit(3).collect(Collectors.toSet());
+        Set<Employee> oldest3 = employees.stream()
+                .sorted((emp1,emp2)->getAge.apply(emp2)-getAge.apply(emp1))
+                .limit(3)
+                .collect(Collectors.toSet());
+
         System.out.println(oldest3);
         // 8. Filter and display employees who have birthdays in a specific month.
         Set<Employee> bornInNov = instance.getEmpBornInMonth(11, employees);
@@ -81,7 +94,7 @@ public class EmployeeCodelab1 {
     }
 
     public List<Employee> getEmpWithSalAbove(int threshold, List<Employee> emps){
-        Predicate<Employee> salaryAboveThreshold = (emp)-> emp.salary > threshold;
+        Predicate<Employee> salaryAboveThreshold = (emp) -> emp.salary > threshold;
         return emps
                 .stream()
                 .filter(salaryAboveThreshold)

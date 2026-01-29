@@ -2,13 +2,13 @@ package demos.day2;
 
 /**
  * Purpose:
- *
- * @author: Thomas Hartmann
+ * author: Thomas Hartmann
  */
-public class GenericsDemo {
+public class GenericsDemo2 {
     public static void main(String[] args) {
-        new GenericsDemo().run();
+        new GenericsDemo2().run();
     }
+
     public void run(){
         IGenericsDemo<String> genericsStringDemo = new GenericsDemoImpl<>();
         IGenericsDemo<Person> genericsPersonDemo = new GenericsDemoImpl<>();

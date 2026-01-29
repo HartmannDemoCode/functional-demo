@@ -69,12 +69,9 @@ public class CallbackInJava {
             System.out.println(string);
         }
 
-<<<<<<< HEAD
-=======
 
         Predicate<String> filterType = (String element)-> element.contains("a");
 //        filter(strs, filterType);
->>>>>>> 2902e1e0b33eb0c8213ef060801b7e7860e1fed1
     }
 
   //----------------------------------------------------------------------------------------------  

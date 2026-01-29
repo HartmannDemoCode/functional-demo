@@ -31,5 +31,14 @@ public class Main {
         System.out.println(avgResult);
         System.out.println(avgResult2);
 
+        List<Person> people = List.of(
+                new Person("Albert", 10)
+                , new Person("Betty", 20)
+                , new Person("Charlie", 30)
+                , new Person("Delilah", 40)
+        );
+
+    }
+    public static record Person(String name, int age) {
     }
 }
